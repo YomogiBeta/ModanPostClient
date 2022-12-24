@@ -1,7 +1,7 @@
 import { ActionIcon, Drawer, Text } from "@mantine/core"
 import { IconArrowDownCircle } from '@tabler/icons';
 import { useCallback, useState } from "react";
-import PostCreateField from "./PostCreateField";
+import PostInputField from "../PostInputField";
 
 const OpenPostDrawer = () => {
 
@@ -31,7 +31,7 @@ const OpenPostDrawer = () => {
         size="lg"
         opened={open}
         onClose={closePostDrawer} >
-        <PostCreateField onCloseDrawer={closePostDrawer} />
+        <PostInputField onCloseDrawer={closePostDrawer} />
       </Drawer>
 
     </>

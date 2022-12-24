@@ -4,9 +4,9 @@ import RHFTextField from "components/Inputs/RHFTextField"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
 import resolver from "./resolver"
-import usePostActions from '../../../api/usePostActions';
+import usePostActions from '../../api/usePostActions';
 
-type CreatePostParam = {
+type InputPostParam = {
   title: string,
   content: string
 }
@@ -19,11 +19,11 @@ const PostCreateField = ({onCloseDrawer}: PostCreateFieldProps) => {
 
   const { create } = usePostActions()
 
-  const { control, handleSubmit } = useForm<CreatePostParam>({
+  const { control, handleSubmit } = useForm<InputPostParam>({
     resolver: resolver
   })
 
-  const doPost = handleSubmit((data: CreatePostParam) => {
+  const doPost = handleSubmit((data: InputPostParam) => {
     create(data)
     onCloseDrawer()
   })
