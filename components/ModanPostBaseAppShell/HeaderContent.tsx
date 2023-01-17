@@ -1,10 +1,10 @@
-import OpenPostDrawer from "./OpenPostDrawer"
+import CreatePostDrawer from "./CreatePostDrawer"
 
 const HeaderContent = () => {
 
   return (
     <>
-      <OpenPostDrawer />
+      <CreatePostDrawer />
     </>
   )
 }

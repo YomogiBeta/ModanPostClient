@@ -31,7 +31,7 @@ const OpenPostDrawer = () => {
         size="lg"
         opened={open}
         onClose={closePostDrawer} >
-        <PostInputField onCloseDrawer={closePostDrawer} />
+        <PostInputField onCloseParent={closePostDrawer} />
       </Drawer>
 
     </>

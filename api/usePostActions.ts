@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSWRConfig } from 'swr';
-import { CreatePostParam } from 'types/api';
-import { post } from './fetcher';
+import { CreatePostParam, UpdatePostParam } from 'types/api';
+import { post, destroy } from './fetcher';
 
 const usePostActions = () => {
   const { mutate: baseMutate } = useSWRConfig()
@@ -15,7 +15,24 @@ const usePostActions = () => {
     [mutate]
   )
 
-  return { create }
+  const update = useCallback(
+    async (param: UpdatePostParam): Promise<void> => {
+      const { id, ...body } = param
+      await post(`/api/posts/${id}`, body)
+      mutate()
+    },
+    [mutate]
+  )
+
+  const remove = useCallback(
+    async (id: string): Promise<void> => {
+      await destroy(`/api/posts/${id}`)
+      mutate()
+    },
+    [mutate]
+  )
+
+  return { create, update, remove }
 }
 
 export default usePostActions

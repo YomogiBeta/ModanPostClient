@@ -1,4 +1,9 @@
 
+export type UpdateMeParam = {
+  name?: string,
+  email?: string
+}
+
 export type LoginArgumentsType = {
   email: string,
   password: string
@@ -12,6 +17,12 @@ export type RegisterArgumentsType = {
 }
 
 export type CreatePostParam = {
+  title: string,
+  content: string
+}
+
+export type UpdatePostParam = {
+  id: string,
   title: string,
   content: string
 }

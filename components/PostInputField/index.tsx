@@ -5,27 +5,34 @@ import { memo } from "react"
 import { useForm } from "react-hook-form"
 import resolver from "./resolver"
 import usePostActions from '../../api/usePostActions';
+import { Post } from "types"
 
 type InputPostParam = {
   title: string,
   content: string
 }
 
-type PostCreateFieldProps = {
-  onCloseDrawer: () => void
+type PostInputFieldProps = {
+  onCloseParent?: () => void
+  oldPostData?: Post
 }
 
-const PostCreateField = ({onCloseDrawer}: PostCreateFieldProps) => {
+const PostInputField = ({ onCloseParent, oldPostData }: PostInputFieldProps) => {
 
-  const { create } = usePostActions()
+  const { create, update } = usePostActions()
 
   const { control, handleSubmit } = useForm<InputPostParam>({
+    defaultValues: {
+      title: oldPostData?.title,
+      content: oldPostData?.content
+    },
     resolver: resolver
   })
 
   const doPost = handleSubmit((data: InputPostParam) => {
-    create(data)
-    onCloseDrawer()
+    if (oldPostData === undefined) create(data)
+    else update({ id: oldPostData.id, ...data })
+    onCloseParent?.()
   })
 
   return (
@@ -45,11 +52,11 @@ const PostCreateField = ({onCloseDrawer}: PostCreateFieldProps) => {
             minRows={3}
             maxRows={5}
           />
-          <Button variant="light" onClick={doPost}>Post!</Button>
+          <Button variant="light" onClick={doPost}>Submit</Button>
         </Stack>
       </Container>
 
     </>
   )
 }
-export default memo(PostCreateField)
+export default memo(PostInputField)
