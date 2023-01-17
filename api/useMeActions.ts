@@ -16,8 +16,16 @@ const useMeActions = () => {
     [mutate]
   )
 
+  const updateProfileImage = useCallback(
+    async (formData: FormData): Promise<void> => {
+      await post(`/api/me/profile`, formData, { headers: { "Content-Type": "multipart/form-data" } })
+      mutate()
+    },
+    [mutate]
+  )
 
-  return { update }
+
+  return { update, updateProfileImage }
 }
 
 export default useMeActions

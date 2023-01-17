@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Chip, Container, Flex, Notification, Text } from "@mantine/core";
+import { Avatar, Box, Button, Chip, Container, Divider, FileButton, Flex, Text } from "@mantine/core";
 import { IconPencil } from "@tabler/icons";
 import ModanPostBaseAppShell from "components/ModanPostBaseAppShell";
 import { useForm } from "react-hook-form";
@@ -6,11 +6,12 @@ import DisplayClickInputField from '../../../components/DisplayClickInputField/i
 import resolver from "./resolver";
 
 import { hideNotification, showNotification } from '@mantine/notifications';
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';
 import useMeActions from '../../../api/useMeActions';
 import { User } from "types";
 
+import ProfileTrimUploadModal from "./ProfileTrimUploadModal";
 
 type AccountEditType = {
   name?: string,
@@ -23,8 +24,10 @@ type AccountPageProps = {
 
 const AccountPage = ({ userData }: AccountPageProps) => {
   const { update } = useMeActions()
+  const [profile, setProfileImage] = useState<File | null>(null)
 
-  const { control, handleSubmit, formState: { isDirty, dirtyFields } } = useForm<AccountEditType>({
+
+  const { control, handleSubmit, reset, formState: { isDirty, dirtyFields } } = useForm<AccountEditType>({
     defaultValues: {
       name: userData.name,
       email: userData.email,
@@ -32,19 +35,29 @@ const AccountPage = ({ userData }: AccountPageProps) => {
     resolver: resolver
   })
 
-
   const router = useRouter()
 
   const reload = useCallback(() => {
     router.reload()
   }, [])
 
+  const openTrimingImageDialog = useCallback((payload: File) => {
+    setProfileImage(payload)
+  }, [setProfileImage])
+
+  const closeProfileTrimUploadModal = useCallback(() => {
+    setProfileImage(null)
+  }, [setProfileImage])
+
   const updateUserInfomation = handleSubmit((data) => {
     const body: AccountEditType = {}
     body.name = data.name
-    if(dirtyFields["email"]) body.email = data.email
+    if (dirtyFields["email"]) body.email = data.email
     update(body).then(() => {
-      router.reload()
+      reset({
+        name: data.name,
+        email: data.email,
+      })
     })
   })
 
@@ -73,9 +86,30 @@ const AccountPage = ({ userData }: AccountPageProps) => {
   return (
     <>
       <ModanPostBaseAppShell>
-        <Container size="sm" px="sm" mt={24}>
+        <Container size="sm" px="sm" mt={24} >
+          <Text size="lg" fw={700} >Profile Page</Text>
+          <Divider mb={8} />
           <Flex gap="md" align="center">
-            <Avatar radius="lg" size="lg" alt="it's me" color="cyan" >IC</Avatar>
+
+            <FileButton onChange={openTrimingImageDialog} accept="image/png,image/jpeg">
+              {(props) =>
+                <Box
+                  sx={{ cursor: 'pointer', "&:hover": { border: "1px solid gray" }, padding: "8px", borderRadius: "16px" }}
+                  {...props}>
+                  <Box sx={{ textAlign: "right" }}>
+                    <IconPencil size="20" color="#238be6" />
+                  </Box>
+
+                  <Avatar
+                    radius="xl"
+                    size="xl"
+                    variant="outline"
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/storage/${userData.profile_image}`}
+                    alt="it's me"
+                    color="cyan"  />
+                </Box>}
+            </FileButton>
+
             <DisplayClickInputField
               control={control}
               name="name"
@@ -85,7 +119,7 @@ const AccountPage = ({ userData }: AccountPageProps) => {
             />
           </Flex>
 
-          <Box pt={16}>
+          <Box mt={24}>
             <Flex gap="md" align="center">
               <Chip checked={true} variant="filled">メール</Chip>
               <DisplayClickInputField
@@ -99,6 +133,11 @@ const AccountPage = ({ userData }: AccountPageProps) => {
             </Flex>
           </Box>
         </Container>
+        <ProfileTrimUploadModal
+        title="プロフィール画像アップロード"
+          imageFile={profile}
+          opened={Boolean(profile)}
+          onClose={closeProfileTrimUploadModal} />
       </ModanPostBaseAppShell>
     </>
   )
