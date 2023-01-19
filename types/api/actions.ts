@@ -26,3 +26,8 @@ export type UpdatePostParam = {
   title: string,
   content: string
 }
+
+export type CreateCommentParam = {
+  post_id: string | undefined,
+  content: string
+}

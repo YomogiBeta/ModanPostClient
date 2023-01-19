@@ -1,4 +1,4 @@
-import { ActionIcon, Card, Group, Stack, Sx, Text } from "@mantine/core"
+import { ActionIcon, Avatar, Card, Group, Stack, Text } from "@mantine/core"
 import { IconMessage, IconMoodSmile } from '@tabler/icons';
 import useMe from "api/useMe";
 import { DateTime } from "luxon";
@@ -17,8 +17,8 @@ type PostCardPropsType = {
 
 const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
   const { data: myData } = useMe()
-  const { hovered, ref } = useHover();
   const router = useRouter()
+
 
   const movePostPage = useCallback(() => {
     if (!onlyView) {
@@ -26,39 +26,43 @@ const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
     }
   }, [router])
 
+
   return (
     <>
       <Card shadow="sm" p="lg" radius="md" withBorder >
-        <Group position="apart" mt="md" mb="xs">
+        <Group >
+          <Avatar
+            radius="xl"
+            variant="outline"
+            src={`${process.env.NEXT_PUBLIC_API_URL}/storage/${postData.profile_image}`}
+            alt="it's me"
+            color="cyan" />
+          <Text>{postData.owner_name}</Text>
           <Text
-            ref={ref}
             onClick={movePostPage}
-            sx={{ backgroundColor: hovered && !onlyView ? "#e7f5ff" : "none", cursor: hovered && !onlyView ? "pointer" : "auto"}}
+            sx={{ "&:hover": {backgroundColor: "#e7f5ff", cursor: !onlyView ? "pointer" : "auto"},  }}
             weight={500}
             size="xl"
-            color={"gray.7"}
+ 
             p={4}
           >
             {
-              !onlyView ? <IconLink size={16}/> : ""
+              !onlyView ? <IconLink size={16} /> : ""
             }
-            
+
             {postData.title}
           </Text>
           {
-            myData?.id === postData.user_id ?
+            myData?.id === postData.owner_id ?
               <PostMenu post={postData} /> : ""
           }
         </Group>
 
         <Stack p={16}>
-          <Text>{postData.content}</Text>
+          <Text sx={{whiteSpace: "pre-wrap"}}>{postData.content}</Text>
         </Stack>
 
         <Group sx={{ width: "fit-content", borderRadius: "8px" }} mt="md" mb="xs" p={4} spacing="xs">
-          <ActionIcon >
-            <IconMessage />
-          </ActionIcon>
           <ActionIcon >
             <IconMoodSmile />
           </ActionIcon>

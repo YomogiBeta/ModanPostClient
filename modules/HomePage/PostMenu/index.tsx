@@ -1,4 +1,4 @@
-import { Menu, ActionIcon, Text } from "@mantine/core"
+import { Menu, ActionIcon, Text, Box } from "@mantine/core"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons"
 import { useCallback, useState } from "react"
 import { Post } from "types"
@@ -41,8 +41,8 @@ const PostMenu = ({ post }: PostMenuProps) => {
   }, [])
 
   return (
-    <>
-      <Menu shadow="md" width={200} transition="rotate-right" transitionDuration={250} >
+    <Box sx={{marginLeft: "auto"}}>
+      <Menu shadow="md" width={200} transition="rotate-right" transitionDuration={250}  >
         <Menu.Target>
           <ActionIcon size={"xs"}>
             <IconDots />
@@ -56,11 +56,12 @@ const PostMenu = ({ post }: PostMenuProps) => {
       </Menu>
       <UpdatePostModal
         post={post}
+        centered={true}
         opened={updateModalOpen}
         onClose={closeUpdateModal}
         title="Edit post"
       />
-    </>
+    </Box>
   )
 
 }

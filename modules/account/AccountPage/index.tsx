@@ -6,7 +6,7 @@ import DisplayClickInputField from '../../../components/DisplayClickInputField/i
 import resolver from "./resolver";
 
 import { hideNotification, showNotification } from '@mantine/notifications';
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import useMeActions from '../../../api/useMeActions';
 import { User } from "types";
