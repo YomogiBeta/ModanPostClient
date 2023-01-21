@@ -1,4 +1,5 @@
-import { Container, Divider, Stack } from "@mantine/core"
+import { Button, Container, Divider, Stack } from "@mantine/core"
+import useComments from "api/useComments"
 import usePost from "api/usePost"
 import Comment from "components/Comment"
 import ModanPostBaseAppShell from "components/ModanPostBaseAppShell"
@@ -11,6 +12,7 @@ type PostViewProps = {
 }
 const PostView = ({ id }: PostViewProps) => {
   const { data: post } = usePost(id)
+  const { data: commentsData, next, isValidating } = useComments(id, { revalidateAll: true })
 
   return (
     <>
@@ -21,21 +23,24 @@ const PostView = ({ id }: PostViewProps) => {
           }
 
           <Divider my="xs" label="Comment" labelPosition="center" p={16} />
-          <Stack align="flex-start" spacing="lg" sx={{marginBottom: "200px"}} >
+          <Stack align="flex-start" spacing="lg" sx={{ marginBottom: "200px" }} >
             {
-              post?.comments?.map(comment => (
-                <Comment comment={comment} key={comment.id} />
-              ))
+              commentsData?.map(comments => {
+                return comments.map(comment => (
+                  <Comment comment={comment} key={comment.id} />
+                ))
+              })
             }
+            <Button loading={isValidating} variant="light" onClick={next}>さらに読み込む</Button>
           </Stack>
         </Container>
       </ModanPostBaseAppShell>
-      <CommentInputField 
-      post_id={post?.id}
-      sx={{
-        position: "fixed", bottom: "32px", left: "50%",
-        transform: "translate(-50%, 0%)", width: "96%"
-      }} />
+      <CommentInputField
+        post_id={post?.id}
+        sx={{
+          position: "fixed", bottom: "32px", left: "50%",
+          transform: "translate(-50%, 0%)", width: "96%"
+        }} />
     </>
 
   )

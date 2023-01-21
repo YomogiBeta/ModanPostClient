@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
-import { useSWRConfig } from 'swr';
 import { CreatePostParam, UpdatePostParam } from 'types/api';
 import { post, destroy } from './fetcher';
+import useGlobalMutate from './useGlobalMutate';
 
 const usePostActions = () => {
-  const { mutate: baseMutate } = useSWRConfig()
-  const mutate = useCallback(() => baseMutate((key: string) => key.startsWith("/api/posts")), [baseMutate])
+  const { mutate } = useGlobalMutate("/api/posts")
 
   const create = useCallback(
     async (param: CreatePostParam): Promise<void> => {

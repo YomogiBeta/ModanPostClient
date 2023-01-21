@@ -2,17 +2,17 @@ import { ActionIcon, Avatar, Card, Group, Stack, Text } from "@mantine/core"
 import { IconMessage, IconMoodSmile } from '@tabler/icons';
 import useMe from "api/useMe";
 import { DateTime } from "luxon";
-import { Post } from "types";
+import { Post, SWRPaginationData } from "types";
 import PostMenu from '../../modules/HomePage/PostMenu';
-import { useHover } from '@mantine/hooks';
 import { useRouter } from "next/router";
 import { useCallback } from 'react';
 import { IconLink } from '@tabler/icons';
+import { KeyedMutator } from "swr";
 
 
 type PostCardPropsType = {
   postData: Post,
-  onlyView?: boolean
+  onlyView?: boolean,
 }
 
 const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
@@ -40,10 +40,10 @@ const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
           <Text>{postData.owner_name}</Text>
           <Text
             onClick={movePostPage}
-            sx={{ "&:hover": {backgroundColor: "#e7f5ff", cursor: !onlyView ? "pointer" : "auto"},  }}
+            sx={{ "&:hover": { backgroundColor: "#e7f5ff", cursor: !onlyView ? "pointer" : "auto" }, }}
             weight={500}
             size="xl"
- 
+
             p={4}
           >
             {
@@ -59,7 +59,7 @@ const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
         </Group>
 
         <Stack p={16}>
-          <Text sx={{whiteSpace: "pre-wrap"}}>{postData.content}</Text>
+          <Text sx={{ whiteSpace: "pre-wrap" }}>{postData.content}</Text>
         </Stack>
 
         <Group sx={{ width: "fit-content", borderRadius: "8px" }} mt="md" mb="xs" p={4} spacing="xs">

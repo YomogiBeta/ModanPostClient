@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
-import { useSWRConfig } from 'swr';
 import { CreateCommentParam } from 'types/api';
 import { post } from './fetcher';
+import useGlobalMutate from './useGlobalMutate';
 
 const useCommentActions = () => {
-  const { mutate: baseMutate } = useSWRConfig()
-  const mutate = useCallback(() => baseMutate((key: string) => key.startsWith("/api/posts")), [baseMutate])
+  const { mutate } = useGlobalMutate("/api/posts")
 
   const create = useCallback(
     async ({post_id, ...body}: CreateCommentParam): Promise<void> => {

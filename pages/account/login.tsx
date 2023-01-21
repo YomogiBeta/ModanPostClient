@@ -1,10 +1,10 @@
 import LoginPage from "modules/account/login/LoginPage"
 
-const register = () => {
+const login = () => {
 
     return (
         <LoginPage />
     )
 }
 
-export default register
+export default login

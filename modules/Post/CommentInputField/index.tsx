@@ -14,6 +14,7 @@ const CommentInputField = ({ post_id, sx }: CommentInputFieldType) => {
 
   const { create } = useCommentActions()
   const { control, handleSubmit, setValue } = useForm<{ content: string }>({
+    defaultValues: { content: "" },
     resolver: resolver
   })
 
@@ -22,7 +23,7 @@ const CommentInputField = ({ post_id, sx }: CommentInputFieldType) => {
       post_id: post_id,
       content: data.content
     }).then(() => {
-      setValue("content","")
+      setValue("content", "")
     })
   })
 

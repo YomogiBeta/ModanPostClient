@@ -1,22 +1,22 @@
 import useSWRInfinite, { SWRInfiniteConfiguration } from 'swr/infinite'
-import { Post, SWRPaginationData } from "types";
+import { CommentType, SWRPaginationData } from "types";
 import { paginationGet } from "./fetcher";
 import { useCallback } from 'react';
 
-const usePosts = (options?: SWRInfiniteConfiguration) => {
+const useComments = (post_id: string | undefined, options?: SWRInfiniteConfiguration) => {
 
-  const getKey = (pageIndex: number, previousPageData: SWRPaginationData<Post[]>) => {
+  const getKey = (pageIndex: number, previousPageData: SWRPaginationData<CommentType[]>) => {
     // 最初のページでは、`previousPageData` がありません
-    if (pageIndex === 0) return `/api/posts`
+    if (pageIndex === 0) return `/api/posts/${post_id}/comments`
 
     // 最後に到達した
     if ((previousPageData && !previousPageData.data) || previousPageData.meta.next_cursor === null) return null
 
     // API のエンドポイントにカーソルを追加します
-    return `/api/posts?cursor=${previousPageData.meta.next_cursor}`
+    return `/api/posts/${post_id}/comments?cursor=${previousPageData.meta.next_cursor}`
   }
 
-  const { setSize, data: originData, ...other } = useSWRInfinite<SWRPaginationData<Post[]>>(getKey, paginationGet, options);
+  const { setSize, data: originData, ...other } = useSWRInfinite<SWRPaginationData<CommentType[]>>(getKey, paginationGet, options);
 
   const next = useCallback(() => {
     setSize(prevSize => prevSize + 1)
@@ -29,4 +29,4 @@ const usePosts = (options?: SWRInfiniteConfiguration) => {
   return { next, data, paginationMeta, ...other }
 }
 
-export default usePosts
+export default useComments
