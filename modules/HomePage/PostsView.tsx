@@ -4,7 +4,7 @@ import usePosts from '../../api/usePosts';
 import PostCreateButton from "components/PostCreateButton";
 
 const PostsView = () => {
-  const { data, next, isValidating } = usePosts({ revalidateAll: true })
+  const { data, next, isValidating, isLast } = usePosts({ revalidateAll: true })
   return (
     <>
       <Container size="md" px="xs" mt={32}>
@@ -18,7 +18,12 @@ const PostsView = () => {
             ))
           })}
 
-          <Button loading={isValidating} variant="light" onClick={next}>さらに読み込む</Button>
+          {
+            !isLast ?
+              <Button loading={isValidating} variant="light" onClick={next}>さらに読み込む</Button>
+              :
+              ""
+          }
         </Stack>
       </Container>
       <PostCreateButton />

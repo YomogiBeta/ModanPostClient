@@ -23,10 +23,11 @@ const useComments = (post_id: string | undefined, options?: SWRInfiniteConfigura
   }, [setSize])
 
   const data = originData?.map(data => data.data)
-  const paginationMeta = originData?.map(data => ({ links: { ...data.links }, meta: { ...data.meta } }))
+  const paginationMetas = originData?.map(data => ({ links: { ...data.links }, meta: { ...data.meta } }))
+  const isLast = paginationMetas?.slice(-1)[0].meta.next_cursor === null
 
 
-  return { next, data, paginationMeta, ...other }
+  return { next, data, paginationMetas, isLast, ...other }
 }
 
 export default useComments

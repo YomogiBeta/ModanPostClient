@@ -12,7 +12,7 @@ type PostViewProps = {
 }
 const PostView = ({ id }: PostViewProps) => {
   const { data: post } = usePost(id)
-  const { data: commentsData, next, isValidating } = useComments(id, { revalidateAll: true })
+  const { data: commentsData, next, isValidating, isLast } = useComments(id, { revalidateAll: true })
 
   return (
     <>
@@ -31,7 +31,12 @@ const PostView = ({ id }: PostViewProps) => {
                 ))
               })
             }
-            <Button loading={isValidating} variant="light" onClick={next}>さらに読み込む</Button>
+            {
+              !isLast ?
+                <Button loading={isValidating} variant="light" onClick={next}>さらに読み込む</Button>
+                :
+                ""
+            }
           </Stack>
         </Container>
       </ModanPostBaseAppShell>
