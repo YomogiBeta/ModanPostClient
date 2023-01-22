@@ -2,11 +2,11 @@ import { Modal, ModalProps } from "@mantine/core"
 import PostInputField from "components/PostInputField"
 import { Post } from "types"
 
-type UpdatePostModalProps = {
-  post: Post
+type PostInputModalProps = {
+  post?: Post
 } & ModalProps
 
-const UpdatePostModal = (props: UpdatePostModalProps) => {
+const PostInputModal = (props: PostInputModalProps) => {
   const { post, onClose, ...modalProps } = props
   return (
     <Modal
@@ -18,4 +18,4 @@ const UpdatePostModal = (props: UpdatePostModalProps) => {
   )
 }
 
-export default UpdatePostModal
+export default PostInputModal

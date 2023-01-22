@@ -2,7 +2,6 @@ import { Group, Avatar, Text } from "@mantine/core"
 import useMe from "api/useMe"
 import ToggleThemeButton from "components/ToggleThemeButton"
 import Link from "next/link"
-import CreatePostDrawer from "./CreatePostDrawer"
 
 const HeaderContent = () => {
 
@@ -29,7 +28,6 @@ const HeaderContent = () => {
               </Text>
         }
       </Group>
-      <CreatePostDrawer />
     </>
   )
 }

@@ -2,7 +2,7 @@ import { Menu, ActionIcon, Text, Box } from "@mantine/core"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons"
 import { useCallback, useState } from "react"
 import { Post } from "types"
-import UpdatePostModal from "./UpdatePostModal"
+import PostInputModal from "components/PostInputModal"
 import { openConfirmModal } from '@mantine/modals';
 import usePostActions from "api/usePostActions"
 
@@ -54,7 +54,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
           <Menu.Item onClick={doDeletePost} icon={<IconTrash size={14} />} color="red">削除</Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <UpdatePostModal
+      <PostInputModal
         post={post}
         centered={true}
         opened={updateModalOpen}
