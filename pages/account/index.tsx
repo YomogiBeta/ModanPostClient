@@ -1,7 +1,7 @@
 import useMe from 'api/useMe';
 import AccountPage from '../../modules/account/AccountPage/index';
 
-const account = () => {
+const Account = () => {
   const { data: meData } = useMe()
     return (
       <>
@@ -11,4 +11,4 @@ const account = () => {
     )
 }
 
-export default account
+export default Account

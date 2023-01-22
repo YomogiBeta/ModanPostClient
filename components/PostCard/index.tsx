@@ -1,13 +1,12 @@
 import { ActionIcon, Avatar, Card, Group, Stack, Text } from "@mantine/core"
-import { IconMessage, IconMoodSmile } from '@tabler/icons';
+import { IconMoodSmile } from '@tabler/icons';
 import useMe from "api/useMe";
 import { DateTime } from "luxon";
-import { Post, SWRPaginationData } from "types";
+import { Post } from "types";
 import PostMenu from '../../modules/HomePage/PostMenu';
 import { useRouter } from "next/router";
 import { useCallback } from 'react';
 import { IconLink } from '@tabler/icons';
-import { KeyedMutator } from "swr";
 
 
 type PostCardPropsType = {
@@ -24,7 +23,7 @@ const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
     if (!onlyView) {
       router.push(`post/${postData.id}`)
     }
-  }, [router])
+  }, [router, onlyView, postData.id])
 
 
   return (

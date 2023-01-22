@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
 
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
-    
+
   return (
     <>
       <Head>
@@ -26,19 +26,19 @@ export default function App(props: AppProps) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme
-        }}
-      >
-        <NotificationsProvider position="bottom-center">
-          <ModalsProvider>
-            <Component {...pageProps} />
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme
+          }}
+        >
+          <NotificationsProvider position="bottom-center">
+            <ModalsProvider>
+              <Component {...pageProps} />
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
       </ColorSchemeProvider>
     </>
   );
