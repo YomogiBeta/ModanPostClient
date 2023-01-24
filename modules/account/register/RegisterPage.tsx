@@ -6,10 +6,17 @@ import Router from "next/router"
 import { register } from "api/accountRequest"
 import { NextPage } from "next"
 import { RegisterArgumentsType } from "types"
+import Link from "next/link"
 
 const RegisterPage:NextPage  = () => {
 
   const { control, handleSubmit } = useForm<RegisterArgumentsType>({
+    defaultValues:{
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: ""
+    },
     resolver: resolver
   })
 
@@ -53,6 +60,7 @@ const RegisterPage:NextPage  = () => {
               type="password"
               withAsterisk
             />
+            <Link style={{fontSize: "14px"}} href="/account/login">または、ログイン＞＞</Link>
             <Button variant="light" radius="md" onClick={doRegister}>Register</Button>
           </Stack>
         </Paper>

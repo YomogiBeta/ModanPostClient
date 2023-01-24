@@ -1,15 +1,15 @@
 import { Group, Avatar, Text } from "@mantine/core"
-import useMe from "api/useMe"
 import ToggleThemeButton from "components/ToggleThemeButton"
+import useAccount from "hooks/AccountInfomation/useAccount"
 import Link from "next/link"
 
 const HeaderContent = () => {
 
-  const { data: userData } = useMe()
+  const { userData } = useAccount()
 
   return (
     <>
-      <Group position="right" sx={{padding: "0px 16px"}}>
+      <Group position="right" sx={{ padding: "0px 16px" }}>
         <ToggleThemeButton />
         {
           userData !== undefined ?
@@ -22,10 +22,10 @@ const HeaderContent = () => {
               src={`${process.env.NEXT_PUBLIC_API_URL}/storage/${userData.profile_image}`}
               alt="it's me"
               color="cyan" />
-              :
-              <Text href={"/account/login"} component={Link} color="blue">
-                ログイン
-              </Text>
+            :
+            <Text href={"/account/login"} component={Link} color="blue">
+              ログイン
+            </Text>
         }
       </Group>
     </>

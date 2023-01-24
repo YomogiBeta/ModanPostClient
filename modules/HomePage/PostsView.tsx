@@ -4,7 +4,7 @@ import usePosts from '../../api/usePosts';
 import PostCreateButton from "components/PostCreateButton";
 
 const PostsView = () => {
-  const { data, next, isValidating, isLast } = usePosts({ revalidateAll: true })
+  const { data, next, isValidating, isLast } = usePosts()
   return (
     <>
       <Container size="md" px="xs" mt={32}>

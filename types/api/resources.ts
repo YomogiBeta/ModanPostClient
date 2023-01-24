@@ -21,8 +21,16 @@ export type Post = {
   owner_id: string,
   owner_name: string,
   content: string,
+  images: PostImage[],
+  profile_image: string,
   created_at: string,
-  profile_image: string
+}
+
+export type PostImage = {
+  id: string,
+  path: string,
+  post_id: string,
+  created_at: string,
 }
 
 export type CommentType = {

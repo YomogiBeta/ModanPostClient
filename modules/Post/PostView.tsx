@@ -4,6 +4,7 @@ import usePost from "api/usePost"
 import Comment from "components/Comment"
 import ModanPostBaseAppShell from "components/ModanPostBaseAppShell"
 import PostCard from "components/PostCard"
+import useAccount from "hooks/AccountInfomation/useAccount"
 import CommentInputField from "./CommentInputField"
 
 
@@ -12,7 +13,8 @@ type PostViewProps = {
 }
 const PostView = ({ id }: PostViewProps) => {
   const { data: post } = usePost(id)
-  const { data: commentsData, next, isValidating, isLast } = useComments(id, { revalidateAll: true })
+  const { isLoggined } = useAccount()
+  const { data: commentsData, next, isValidating, isLast } = useComments(id)
 
   return (
     <>
@@ -40,12 +42,15 @@ const PostView = ({ id }: PostViewProps) => {
           </Stack>
         </Container>
       </ModanPostBaseAppShell>
-      <CommentInputField
-        post_id={post?.id}
-        sx={{
-          position: "fixed", bottom: "32px", left: "50%",
-          transform: "translate(-50%, 0%)", width: "96%"
-        }} />
+      {
+        isLoggined ?
+          <CommentInputField
+            post_id={post?.id}
+            sx={{
+              position: "fixed", bottom: "32px", left: "50%",
+              transform: "translate(-50%, 0%)", width: "96%"
+            }} /> : ""
+      }
     </>
 
   )

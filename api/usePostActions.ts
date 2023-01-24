@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { CreatePostParam, UpdatePostParam } from 'types/api';
+import { CreatePostParam, Post, UpdatePostParam } from 'types/api';
 import { post, destroy } from './fetcher';
 import useGlobalMutate from './useGlobalMutate';
 
@@ -7,9 +7,10 @@ const usePostActions = () => {
   const { mutate } = useGlobalMutate("/api/posts")
 
   const create = useCallback(
-    async (param: CreatePostParam): Promise<void> => {
-      await post(`/api/posts/`, param)
+    async (param: CreatePostParam): Promise<Post> => {
+      const data = await post(`/api/posts/`, param)
       mutate()
+      return data
     },
     [mutate]
   )

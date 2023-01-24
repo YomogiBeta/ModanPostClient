@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import useMeActions from '../../../api/useMeActions';
 import { User } from "types";
-
+import { logout } from "api/accountRequest"
 import ProfileTrimUploadModal from "./ProfileTrimUploadModal";
 
 type AccountEditType = {
@@ -60,6 +60,11 @@ const AccountPage = ({ userData }: AccountPageProps) => {
       })
     })
   })
+
+  const handleLogout = useCallback(async() => {
+    await logout()
+    window.location.href = "/"
+  },[logout])
 
   useEffect(() => {
     if (isDirty) {
@@ -131,6 +136,9 @@ const AccountPage = ({ userData }: AccountPageProps) => {
                   </Text>}
               />
             </Flex>
+          </Box>
+          <Box sx={{textAlign: "right"}}>
+            <Text color={"gray"} onClick={handleLogout} sx={{cursor: "pointer", "&:hover": {color: "skyblue"}}}>ログアウト</Text>
           </Box>
         </Container>
         <ProfileTrimUploadModal

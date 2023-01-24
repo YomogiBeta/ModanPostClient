@@ -5,6 +5,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { NotificationsProvider } from '@mantine/notifications';
 import { useState } from 'react';
 import { useLocalStorage } from '@mantine/hooks';
+import AccountInfomationProvider from 'hooks/AccountInfomation/AccountInfomationProvider';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -25,21 +26,23 @@ export default function App(props: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
 
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            colorScheme
-          }}
-        >
-          <NotificationsProvider position="bottom-center">
-            <ModalsProvider>
-              <Component {...pageProps} />
-            </ModalsProvider>
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+      <AccountInfomationProvider>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              colorScheme
+            }}
+          >
+            <NotificationsProvider position="bottom-center">
+              <ModalsProvider>
+                <Component {...pageProps} />
+              </ModalsProvider>
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </AccountInfomationProvider>
     </>
   );
 }

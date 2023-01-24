@@ -1,21 +1,34 @@
-import { Stack, Paper, Title, Container, Button } from "@mantine/core"
+import { Stack, Paper, Title, Container, Button, Text } from "@mantine/core"
 import { useForm } from "react-hook-form"
 import RHFTextField from "components/Inputs/RHFTextField"
 import resolver from "./resolver"
-import Router from "next/router"
 import { login } from "api/accountRequest"
 import { NextPage } from "next"
 import { LoginArgumentsType } from "types"
+import Link from "next/link"
+import { useState } from "react"
 
-const RegisterPage:NextPage  = () => {
+const RegisterPage: NextPage = () => {
+
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
 
   const { control, handleSubmit } = useForm<LoginArgumentsType>({
+    defaultValues: {
+      email: "",
+      password: ""
+    },
     resolver: resolver
   })
 
   const doLogin = handleSubmit(async data => {
-    if(await login(data)){
-      Router.push("/")
+    setLoading(true)
+    setError(false)
+    if (await login(data)) {
+      window.location.href = "/"
+    } else {
+      setError(true)
+      setLoading(false)
     }
   })
 
@@ -25,6 +38,10 @@ const RegisterPage:NextPage  = () => {
         <Paper shadow="xl" radius="md" p="lg" withBorder >
           <Title order={3} mb={24}>ログインしよう</Title>
           <Stack spacing="xl">
+            {
+              error ? 
+              <Text color="red">メールアドレスまたはパスワードが間違っています</Text> : ""
+            }
             <RHFTextField
               control={control}
               name="email"
@@ -39,7 +56,8 @@ const RegisterPage:NextPage  = () => {
               type="password"
               withAsterisk
             />
-            <Button variant="light" radius="md" onClick={doLogin}>Login</Button>
+            <Link style={{ fontSize: "14px" }} href="/account/register">または、アカウント登録＞＞</Link>
+            <Button loading={loading} variant="light" radius="md" onClick={doLogin}>Login</Button>
           </Stack>
         </Paper>
       </Container>

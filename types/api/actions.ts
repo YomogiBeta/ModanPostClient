@@ -31,3 +31,8 @@ export type CreateCommentParam = {
   post_id: string | undefined,
   content: string
 }
+
+export type CreatePostImageParam = {
+  post_id: string,
+  upload_file: FormData
+}

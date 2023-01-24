@@ -11,6 +11,7 @@ const PostInputModal = (props: PostInputModalProps) => {
   return (
     <Modal
       {...modalProps}
+      size="xl"
       onClose={onClose}
     >
       <PostInputField onCloseParent={onClose} oldPostData={post} />

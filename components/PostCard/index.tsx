@@ -1,12 +1,16 @@
-import { ActionIcon, Avatar, Card, Group, Stack, Text } from "@mantine/core"
+import { ActionIcon, Avatar, Box, Card, Group, Text } from "@mantine/core"
 import { IconMoodSmile } from '@tabler/icons';
-import useMe from "api/useMe";
 import { DateTime } from "luxon";
 import { Post } from "types";
-import PostMenu from '../../modules/HomePage/PostMenu';
+import PostMenu from './PostMenu';
 import { useRouter } from "next/router";
 import { useCallback } from 'react';
 import { IconLink } from '@tabler/icons';
+import ClickOverlayViewImage from "components/ClickOverlayViewImage";
+
+import reactStringReplace from "react-string-replace"
+import Link from "next/link";
+import useAccount  from 'hooks/AccountInfomation/useAccount';
 
 
 type PostCardPropsType = {
@@ -15,8 +19,10 @@ type PostCardPropsType = {
 }
 
 const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
-  const { data: myData } = useMe()
+  const { userData } = useAccount()
   const router = useRouter()
+
+  const linkRegExp = /(https?:\/\/\S+)/g
 
 
   const movePostPage = useCallback(() => {
@@ -52,20 +58,33 @@ const PostCard = ({ postData, onlyView }: PostCardPropsType) => {
             {postData.title}
           </Text>
           {
-            myData?.id === postData.owner_id ?
+            userData?.id === postData.owner_id ?
               <PostMenu post={postData} /> : ""
           }
         </Group>
 
-        <Stack p={16}>
-          <Text sx={{ whiteSpace: "pre-wrap" }}>{postData.content}</Text>
-        </Stack>
-
-        <Group sx={{ width: "fit-content", borderRadius: "8px" }} mt="md" mb="xs" p={4} spacing="xs">
-          <ActionIcon >
-            <IconMoodSmile />
-          </ActionIcon>
-        </Group>
+        <Box p={16}>
+          <Text sx={{ whiteSpace: "pre-wrap" }}>
+            {reactStringReplace(
+              postData.content,
+              linkRegExp,
+              (match, index) => (
+                <Link key={index} href={match} target="_blank" rel="noopener noreferrer">
+                  {match}
+                </Link>
+              )
+            )}
+          </Text>
+          <Box sx={{ display: "flex", gap: "16px", overflowX: "scroll", width: "100%", marginTop: "16px" }}>
+            {
+              postData.images.map((image) => (
+                <Box key={image.id} sx={{ width: "40%", '@media (max-width: 600px)': { width: "70%" }, flexShrink: 0 }}>
+                  <ClickOverlayViewImage src={`${process.env.NEXT_PUBLIC_API_URL}/storage/${image.path}`} alt={""} />
+                </Box>
+              ))
+            }
+          </Box>
+        </Box>
 
         <Card.Section sx={{ textAlign: "right" }} pr={8}>
           <Text color={"gray.5"}>
