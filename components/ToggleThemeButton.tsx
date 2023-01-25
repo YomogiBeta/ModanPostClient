@@ -8,7 +8,7 @@ const ToggleThemeButton = () => {
 
   return (
     <>
-    <Text size={"sm"}>テーマ切り替え</Text>
+      <Text size={"sm"} sx={{ '@media (max-width: 600px)': { display: "none" } }}>テーマ切り替え</Text>
       <ActionIcon
         variant="outline"
         color={dark ? 'yellow' : 'blue'}
