@@ -22,7 +22,7 @@ const PostCreateButton = () => {
     ),
     labels: { confirm: 'ログインする', cancel: '今はまだいい' },
     onConfirm: () => router.push("/account/login"),
-  }), [openConfirmModal])
+  }), [router])
 
   const handleClose = useCallback(() => setOpen(false), [setOpen])
   const handleOpen = useCallback(() => {
