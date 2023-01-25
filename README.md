@@ -1,7 +1,7 @@
 # Modan Post Client Program (SPA)
 
-## このプログラムについて
-このプログラムは応用プログラミング(Web)の最終レポート用に作成された、Web掲示板アプリ( https://modanpost.com )のクライアントプログラムです。
+## このプログラムについて  ( https://modanpost.com )
+このプログラムは応用プログラミング(Web)の最終レポート用に作成された、Web掲示板アプリのクライアントプログラムです。
 これに対応するサーバープログラムもあわせて開発しました。→ https://github.com/YomogiBeta/ModanPostServer
 
 クライアントプログラムはReactベースのNext.jsをライブラリとして選定し、Typescriptにて開発をしています。  
