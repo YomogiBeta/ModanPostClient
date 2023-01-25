@@ -8,7 +8,7 @@ const usePostActions = () => {
 
   const create = useCallback(
     async (param: CreatePostParam): Promise<Post> => {
-      const data = await post(`/api/posts/`, param)
+      const data = await post(`/api/posts`, param)
       mutate()
       return data
     },
