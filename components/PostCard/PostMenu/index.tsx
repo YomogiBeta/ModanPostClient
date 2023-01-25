@@ -38,7 +38,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
       onConfirm: () => remove(post.id),
     });
 
-  }, [])
+  }, [post.id,remove])
 
   return (
     <Box sx={{marginLeft: "auto"}}>
