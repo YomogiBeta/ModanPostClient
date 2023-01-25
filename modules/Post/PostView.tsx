@@ -1,6 +1,7 @@
 import { Button, Container, Divider, Stack } from "@mantine/core"
 import useComments from "api/useComments"
 import usePost from "api/usePost"
+import BackIconButton from "components/BackIconButton"
 import Comment from "components/Comment"
 import ModanPostBaseAppShell from "components/ModanPostBaseAppShell"
 import PostCard from "components/PostCard"
@@ -19,6 +20,7 @@ const PostView = ({ id }: PostViewProps) => {
   return (
     <>
       <ModanPostBaseAppShell>
+      <BackIconButton href="/" />
         <Container size="xl" px="xs" mt={32}>
           {post !== undefined ?
             <PostCard postData={post} onlyView={true} /> : ""
