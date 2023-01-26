@@ -13,19 +13,27 @@ const ProfileTrimUploadModal = ({ imageFile, onClose, ...modalProps }: ProfileTr
   const [zoom, setZoom] = useState<number>(1)
   const editor = useRef<AvatarEditor>(null);
 
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
+
   const { updateProfileImage } = useMeActions()
 
-  const handleProfileImageUpload = useCallback(async() => {
+  const handleProfileImageUpload = useCallback(async () => {
+    setLoading(true)
     if (editor.current !== null) {
       const imageCanvas = editor.current.getImage()
       const formData = new FormData()
       imageCanvas.toBlob(blob => {
-        if(blob === null) return
+        if (blob === null) return
         formData.append("upload_file", blob)
-        updateProfileImage(formData)
+        updateProfileImage(formData).then(() => {
+          onClose()
+        }).catch(() => {
+          setError(true)
+          setLoading(false)
+        })
       })
-    }
-    onClose()
+    } else setLoading(false)
   }, [editor])
 
   return (
@@ -34,6 +42,10 @@ const ProfileTrimUploadModal = ({ imageFile, onClose, ...modalProps }: ProfileTr
       {...modalProps}
     >
       <Container sx={{ textAlign: "center" }}>
+        {
+          error ?
+            <Text color="red">アップロードに失敗しました。</Text> : ""
+        }
         {
           imageFile !== null ?
             <AvatarEditor
@@ -56,7 +68,7 @@ const ProfileTrimUploadModal = ({ imageFile, onClose, ...modalProps }: ProfileTr
             value={zoom}
             onChange={setZoom}
           />
-          <Button variant="light" onClick={handleProfileImageUpload}>アップロード</Button>
+          <Button loading={loading} variant="light" onClick={handleProfileImageUpload}>アップロード</Button>
         </Stack>
       </Container>
     </Modal>

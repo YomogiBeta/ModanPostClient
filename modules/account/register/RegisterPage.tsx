@@ -1,4 +1,4 @@
-import { Stack, Paper, Title, Container, Button } from "@mantine/core"
+import { Stack, Paper, Title, Container, Button, Text } from "@mantine/core"
 import { useForm } from "react-hook-form"
 import RHFTextField from "components/Inputs/RHFTextField"
 import resolver from "./resolver"
@@ -7,11 +7,15 @@ import { register } from "api/accountRequest"
 import { NextPage } from "next"
 import { RegisterArgumentsType } from "types"
 import Link from "next/link"
+import { useState } from "react"
 
-const RegisterPage:NextPage  = () => {
+const RegisterPage: NextPage = () => {
+
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
 
   const { control, handleSubmit } = useForm<RegisterArgumentsType>({
-    defaultValues:{
+    defaultValues: {
       name: "",
       email: "",
       password: "",
@@ -21,8 +25,13 @@ const RegisterPage:NextPage  = () => {
   })
 
   const doRegister = handleSubmit(async data => {
-    if(await register(data)){
+    setLoading(true)
+    setError(false)
+    if (await register(data)) {
       Router.push("/account/login")
+    } else {
+      setError(true)
+      setLoading(false)
     }
   })
 
@@ -32,6 +41,10 @@ const RegisterPage:NextPage  = () => {
         <Paper shadow="xl" radius="md" p="lg" withBorder >
           <Title order={3} mb={24}>Modan Post アカウント登録</Title>
           <Stack spacing="xl">
+          {
+              error ? 
+              <Text color="red">メールアドレスが重複しています。</Text> : ""
+            }
             <RHFTextField
               control={control}
               name="name"
@@ -60,8 +73,8 @@ const RegisterPage:NextPage  = () => {
               type="password"
               withAsterisk
             />
-            <Link style={{fontSize: "14px"}} href="/account/login">または、ログイン＞＞</Link>
-            <Button variant="light" radius="md" onClick={doRegister}>Register</Button>
+            <Link style={{ fontSize: "14px" }} href="/account/login">または、ログイン＞＞</Link>
+            <Button loading={loading} variant="light" radius="md" onClick={doRegister}>Register</Button>
           </Stack>
         </Paper>
       </Container>
