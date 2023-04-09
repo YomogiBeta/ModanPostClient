@@ -1,6 +1,6 @@
 # Modan Post Client Program (SPA)
 
-## このプログラムについて  ( https://modanpost.com )
+## このプログラムについて
 簡易的なWeb掲示板アプリのクライアントプログラムです。
 これに対応するサーバープログラムもあわせて開発しました。→ https://github.com/YomogiBeta/ModanPostServer
 
